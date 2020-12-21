@@ -18,10 +18,9 @@ class CreateStoksTable extends Migration
             $table->date('tgl_stok');
             $table->string('transaksi');
             $table->integer('no_stok');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->integer('mutasi')->nullable();
             $table->integer('jumlah_stok');
-            $table->integer('total_stok');
 
             $table->foreignId('user_id')->constrained();
 

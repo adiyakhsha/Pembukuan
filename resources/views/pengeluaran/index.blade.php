@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengeluaran')
+@section('title', 'Kas Keluar')
 @section('tool')
     <div class="col-2 clearfix">
         <a href="{{ route('pengeluaran.create') }}" class="btn btn-primary float-right">Catat Pengeluaran</a>
@@ -17,7 +17,6 @@
     <table id="table" class="table table-bordered">
         <thead>
             <tr>
-                <th rowspan="2">No.</th>
                 <th rowspan="2">Tgl pengeluaran</th>
                 <th rowspan="2">No Bukti Pengeluaran</th>
                 <th rowspan="2">No Cek</th>
@@ -31,7 +30,7 @@
                 <th>Ref</th>
                 <th>Serba Serbi</th>
                 <th>Hutang Dagang</th>
-                <th>Pot Ptmbelian</th>
+                <th>Pot Pembelian</th>
             </tr>
         </thead>
         <tbody>
@@ -40,16 +39,15 @@
 
             @foreach ($data as $d)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $d->tgl_pengeluaran }}</td>
                     <td>{{ $d->no_bukti_pengeluaran }}</td>
                     <td>{{ $d->no_cek }}</td>
                     <td>{{ $d->ket_pengeluaran }}</td>
-                    <td>{{ $d->ref }}</td>
-                    <td>{{ $d->serba_serbi }}</td>
-                    <td>{{ $d->hutang_dagang }}</td>
-                    <td>{{ $d->pot_pembelian }}</td>
-                    <td>{{ $d->kas }}</td>
+                    <td> {{ $d->ref }}</td>
+                    <td> Rp. {{ number_format($d->serba_serbi, 2, ',', ',') }}</td>
+                    <td> Rp. {{ number_format($d->hutang_dagang, 2, ',', ',')  }}</td>
+                    <td> Rp. {{ number_format($d->pot_pembelian, 2, ',', ',')  }}</td>
+                    <td> Rp. {{ number_format($d->serba_serbi + $d->hutang_dagang - $d->pot_pembelian, 2, ',', ',')}}</td>
                     <td>
                         <a href="{{ route('pengeluaran.edit', $d->id) }}" class="btn btn-outline-success d-inline-block">Edit</a>
                         <form action="{{ route('pengeluaran.destroy', $d->id) }}" class="d-inline-block" method="POST" onsubmit="return confirm('Yakin ingin dihapus?')">
@@ -61,31 +59,38 @@
                     </td>
                 </tr>
                 <?php
-                    $total['ref'] += $d->ref;
                     $total['serba'] += $d->serba_serbi;
                     $total['hutdag'] += $d->hutang_dagang;
                     $total['pot'] += $d->pot_pembelian;
-                    $total['kas'] += $d->kas;
+                    $total['kas'] += $d->serba_serbi + $d->hutang_dagang - $d->pot_pembelian;
 
                 ?>
             @endforeach
 
-            <tr>
-                <td colspan="4"></td>
-                <td>Total</td>
-                <td>{{ $total['ref'] }}</td>
-                <td>{{ $total['serba'] }}</td>
-                <td>{{ $total['hutdag'] }}</td>
-                <td>{{ $total['pot'] }}</td>
-                <td>{{ $total['kas'] }}</td>
-            </tr>
-
         </tbody>
+
+        <tfoot>
+                <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><h6>Total</h6></td>
+                <td><h6>Rp. {{ number_format($total['serba'], 2, ',', ',') }}</h6></td>
+                <td><h6>Rp. {{ number_format($total['hutdag'], 2, ',', ',') }}</h6></td>
+                <td><h6>Rp. {{ number_format($total['pot'], 2, ',', ',') }}</h6></td>
+                <td><h6>Rp. {{ number_format($total['kas'], 2, ',', ',') }}</h6></td>
+                <td></td>
+            </tr>
+        </tfoot>
+
     </table>
 @endsection
 
 @push('js')
     <script type="text/javascript">
-        $("#table").DataTable();
+        $("#table").DataTable({
+            order:[[1,'desc']]
+        });
     </script>
 @endpush

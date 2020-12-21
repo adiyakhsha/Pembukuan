@@ -17,15 +17,15 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pemasukan.index') }}">Pemasukan</a>
+                        <a class="nav-link" href="{{ route('pemasukan.index') }}">Kas Masuk</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('pengeluaran.index') }}">Pengeluaran</a>
+                        <a class="nav-link" href="{{ route('pengeluaran.index') }}">Kas Keluar</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('transaksi.index') }}">Transaksi</a>
+                        <a class="nav-link" href="{{ route('transaksi.index') }}">Kas Utama</a>
                     </li>
 
                     <li class="nav-item">

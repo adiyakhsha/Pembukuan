@@ -25,6 +25,7 @@ class CreatePemasukansTable extends Migration
             $table->integer('saldo_pemasukan');
 
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('transaksi_id')->constrained(); 
 
             $table->timestamps();
         });

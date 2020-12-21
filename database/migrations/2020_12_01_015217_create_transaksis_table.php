@@ -16,13 +16,8 @@ class CreateTransaksisTable extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->date('tgl_transaksi');
-            $table->string('ket_transaksi');
-            $table->integer('masuk');
-            $table->integer('keluar');
-            $table->integer('saldo_transaksi');
-            $table->integer('jumlah_transaksi');
-
-             $table->foreignId('user_id')->constrained();
+            $table->integer('masuk')->default(0);
+            $table->integer('keluar')->default(0);
             
             $table->timestamps();
         });

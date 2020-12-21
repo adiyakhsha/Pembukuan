@@ -24,9 +24,9 @@ class CreatePengeluaransTable extends Migration
             $table->integer('hutang_dagang')->nullable();
             $table->integer('pot_pembelian')->nullable();
             $table->integer('kas')->nullable();
-            $table->integer('total_pengeluaran');
 
              $table->foreignId('user_id')->constrained();
+             $table->foreignId('transaksi_id')->constrained();
 
             $table->timestamps();
         });

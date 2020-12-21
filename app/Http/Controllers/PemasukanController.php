@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pemasukan;
+use App\Models\Transaksi;
+use App\Models\Pemasukan;
 use Illuminate\Http\Request;
 
 class PemasukanController extends Controller
@@ -45,10 +46,16 @@ class PemasukanController extends Controller
             'jatuh_tempo' => '',
             'bayar' => '',
             'tgl_bayar' => '',
-            'saldo_pemasukan' => 'required'
         ]);
 
-        auth()->user()->pemasukans()->create($result);
+        $result['user_id'] = auth()->id();
+        $result['saldo_pemasukan'] = $request->total_pemasukan - $request->bayar;
+
+        $transaksi = Transaksi::updateOrCreate([
+            'tgl_transaksi' => $request->tgl_pemasukan
+        ]);
+
+        $transaksi->pemasukans()->create($result);
 
         return redirect()->route('pemasukan.index')->withStatus('Berhasil Catat Pemasukan');
     }
@@ -88,6 +95,8 @@ class PemasukanController extends Controller
             'tgl_bayar',
             'saldo_pemasukan' => 'required'
         ]);
+
+        $result['user_id'] = auth()->id();
 
         $pemasukan->fill($result);
         $pemasukan->save();

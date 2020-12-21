@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pengeluaran;
+use App\Models\Transaksi;
+use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 
 class PengeluaranController extends Controller
@@ -49,7 +50,13 @@ class PengeluaranController extends Controller
             'kas' => '' 
         ]);
 
-        auth()->user()->pengeluarans()->create($result);
+        $result['user_id'] = auth()->id();
+
+        $transaksi = Transaksi::updateOrCreate([
+            'tgl_transaksi' => $request->tgl_pengeluaran
+        ]);
+
+        $transaksi->pengeluarans()->create($result);
 
         return redirect()->route('pengeluaran.index')->withStatus('Berhasil Catat Pengeluaran');
     }
@@ -90,6 +97,8 @@ class PengeluaranController extends Controller
             'pot_pembelian',
             'kas'
         ]);
+
+        $result['user_id'] = auth()->id();
 
         $pengeluaran->fill($result);
         $pengeluaran->save();

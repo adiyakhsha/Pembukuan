@@ -21,7 +21,8 @@ class CreateLabarugisTable extends Migration
             $table->integer('total_harga_penjualan');
             $table->integer('total_laba_kotor');
 
-             $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('transaksi_id')->constrained();
             
             $table->timestamps();
         });

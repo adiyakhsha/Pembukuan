@@ -53,12 +53,6 @@
             <input type="number" name="pot_pembelian" id="pot_pembelian" class="form-control">
         </div>
 
-        <div class="form-group">
-            <label for="kas">Kas</label>
-            <input type="number" name="kas" id="kas" class="form-control">
-        </div>
-            
-
         <div class="form-group clearfix">
             <button type="submit" class="btn btn-outline-primary float-right">Catat</button>
         </div>

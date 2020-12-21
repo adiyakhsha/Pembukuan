@@ -50,22 +50,25 @@
                 </tr>
 
                 <?php
-                    $total['jumlah'] += $d->jumlah_stok;
+                    $total['jumlah'] += $d->jumlah_stok + $d->mutasi;
                 ?>
 
             @endforeach
 
-            <tr>
+        </tbody>
+
+        <tfoot>
+                <tr>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>Total Barang Yang Tersedia</td>
-                <td>{{ $total['jumlah'] }}</td>
+                <td><h6>Total Barang Yang Tersedia</h6></td>
+                <td><h6>{{ $total['jumlah'] }}</h6></td>
                 <td></td>
             </tr>
+        </tfoot>
 
-        </tbody>
     </table>
 @endsection
 

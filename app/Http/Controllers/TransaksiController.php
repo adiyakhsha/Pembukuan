@@ -14,7 +14,7 @@ class transaksiController extends Controller
      */
     public function index()
     {
-        $data = auth()->user()->transaksis;
+        $data = Transaksi::all();
 
         return view('transaksi.index', compact('data'));
     }

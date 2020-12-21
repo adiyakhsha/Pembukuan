@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pemasukan')
+@section('title', 'Kas Masuk')
 @section('tool')
     <div class="col-2 clearfix">
         <a href="{{ route('pemasukan.create') }}" class="btn btn-primary float-right">Catat Pemasukan</a>
@@ -30,17 +30,18 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach ($data as $d)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $d->ket_pemasukan }}</td>
                     <td>{{ $d->tgl_pemasukan }}</td>
                     <td>{{ $d->no_nota }}</td>
-                    <td>{{ $d->total_pemasukan }}</td>
+                    <td> Rp. {{ number_format($d->total_pemasukan, 2, ',', ',') }}</td>
                     <td>{{ $d->jatuh_tempo }}</td>
-                    <td>{{ $d->bayar }}</td>
+                    <td>Rp. {{ number_format($d->bayar, 2, ',', ',') }} </td>
                     <td>{{ $d->tgl_bayar }}</td>
-                    <td>{{ $d->total_pemasukan - $d->bayar}}</td>
+                    <td>Rp. {{ number_format($d->total_pemasukan - $d->bayar, 2, ',', ',')}}</td>
                     <td>
                         <a href="{{ route('pemasukan.edit', $d->id) }}" class="btn btn-outline-success d-inline-block">Edit</a>
                         <form action="{{ route('pemasukan.destroy', $d->id) }}" class="d-inline-block" method="POST" onsubmit="return confirm('Yakin ingin dihapus?')">
@@ -51,13 +52,18 @@
                         </form>
                     </td>
                 </tr>
+
             @endforeach
+
+ 
         </tbody>
     </table>
 @endsection
 
 @push('js')
     <script type="text/javascript">
-        $("#table").DataTable();
+        $("#table").DataTable({
+            order:[[1,'desc']]
+        });
     </script>
 @endpush

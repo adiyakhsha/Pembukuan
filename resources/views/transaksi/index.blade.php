@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Transaksi')
-@section('tool')
-    <div class="col-2 clearfix">
-        <a href="{{ route('transaksi.create') }}" class="btn btn-primary float-right">Catat transaksi</a>
-    </div>
-@endsection
+@section('title', 'Kas Utama')
 
 @section('content')
     @if (session()->has('status'))
@@ -18,11 +13,9 @@
         <thead>
             <tr>
                 <th>Tgl transaksi</th>
-                <th>Keterangan Transaksi</th>
                 <th>Masuk</th>
                 <th>Keluar</th>
                 <th>Saldo</th>
-                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -32,39 +25,30 @@
             @foreach ($data as $d)
                 <tr>
                     <td>{{ $d->tgl_transaksi }}</td>
-                    <td>{{ $d->ket_transaksi }}</td>
-                    <td>{{ $d->masuk }}</td>
-                    <td>{{ $d->keluar }}</td>
-                    <td>{{ $d->saldo_transaksi }}</td>
-                    <td>
-                        <a href="{{ route('transaksi.edit', $d->id) }}" class="btn btn-outline-success d-inline-block">Edit</a>
-                        <form action="{{ route('transaksi.destroy', $d->id) }}" class="d-inline-block" method="POST" onsubmit="return confirm('Yakin ingin dihapus?')">
-                            @method('DELETE')
-                            @csrf
-                            
-                            <button type="submit" class="btn btn-outline-danger">Hapus</button>
-                        </form>
-                    </td>
+                    <td>Rp. {{ number_format($d->masuk, 2, ',', ',') }}</td>
+                    <td>Rp. {{ number_format($d->keluar, 2, ',', ',') }}</td>
+                    <td>Rp. {{ number_format($d->masuk -  $d->keluar, 2, ',', ',') }}</td>
                 </tr>
 
                 <?php
                     $jumlah['masuk'] += $d->masuk;
                     $jumlah['keluar'] += $d->keluar;
-                    $jumlah['saldo'] += $d->saldo_transaksi;
+                    $jumlah['saldo'] += $d->masuk -  $d->keluar;
                 ?>
 
             @endforeach
 
+        </tbody>
+        <tfoot>
+            
             <tr>
-                <td></td>
-                <td>Jumlah</td>
-                <td>{{ $jumlah['masuk'] }}</td>
-                <td>{{ $jumlah['keluar']  }}</td>
-                <td>{{ $jumlah['saldo'] }}</td>
-                <td></td>
+                <td><h6>Jumlah</h6></td>
+                <td><h6>Rp. {{ number_format($jumlah['masuk'], 2, ',', ',') }}</h6></td>
+                <td><h6>Rp. {{ number_format($jumlah['keluar'], 2, ',', ',') }}</h6></td>
+                <td><h6>Rp. {{ number_format($jumlah['saldo'], 2, ',', ',') }}</h6></td>
             </tr>
 
-        </tbody>
+        </tfoot>
     </table>
 @endsection
 
